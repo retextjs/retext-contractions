@@ -89,5 +89,13 @@ test('contractions(value)', function (t) {
     'should allow literals when `allowLiterals: true`'
   );
 
+  t.deepEqual(
+    retext().use(contractions).process([
+      'Well, it doesn’t have to be so bad, y’all.'
+    ].join('\n')).messages.map(String),
+    [],
+    'should work'
+  );
+
   t.end();
 });
