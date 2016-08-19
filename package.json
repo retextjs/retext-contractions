@@ -10,7 +10,8 @@
     "retext"
   ],
   "files": [
-    "index.js"
+    "index.js",
+    "index.json"
   ],
   "dependencies": {
     "has": "^1.0.1",
