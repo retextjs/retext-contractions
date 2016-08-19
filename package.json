@@ -1,0 +1,74 @@
+{
+  "name": "retext-contractions",
+  "version": "0.0.0",
+  "description": "Check apostrophe use in contractions",
+  "license": "MIT",
+  "keywords": [
+    "apostrophe",
+    "contraction",
+    "elision",
+    "retext"
+  ],
+  "files": [
+    "index.js"
+  ],
+  "dependencies": {
+    "has": "^1.0.1",
+    "nlcst-is-literal": "^1.0.0",
+    "nlcst-to-string": "^2.0.0",
+    "unist-util-visit": "^1.1.0"
+  },
+  "repository": "https://github.com/wooorm/retext-contractions",
+  "bugs": "https://github.com/wooorm/retext-contractions/issues",
+  "author": "Titus Wormer <tituswormer@gmail.com> (http://wooorm.com)",
+  "contributors": [
+    "Titus Wormer <tituswormer@gmail.com> (http://wooorm.com)"
+  ],
+  "devDependencies": {
+    "browserify": "^13.0.1",
+    "esmangle": "^1.0.1",
+    "nyc": "^8.1.0",
+    "remark-cli": "^1.0.0",
+    "remark-comment-config": "^4.0.0",
+    "remark-github": "^5.0.0",
+    "remark-lint": "^4.0.0",
+    "remark-validate-links": "^4.0.0",
+    "retext": "^3.0.0",
+    "tape": "^4.0.0",
+    "xo": "^0.16.0"
+  },
+  "scripts": {
+    "build-md": "remark . --quiet --frail",
+    "build-bundle": "browserify index.js --bare -s retextContractions > retext-contractions.js",
+    "build-mangle": "esmangle retext-contractions.js > retext-contractions.min.js",
+    "build": "npm run build-md && npm run build-bundle && npm run build-mangle",
+    "lint": "xo",
+    "test-api": "node test",
+    "test-coverage": "nyc --reporter lcov tape test.js",
+    "test": "npm run build && npm run lint && npm run test-coverage"
+  },
+  "xo": {
+    "space": true,
+    "rules": {
+      "guard-for-in": "off"
+    },
+    "ignores": [
+      "retext-contractions.js"
+    ]
+  },
+  "remarkConfig": {
+    "output": true,
+    "plugins": {
+      "comment-config": null,
+      "github": null,
+      "lint": {
+        "heading-increment": false,
+        "list-item-spacing": false
+      },
+      "validate-links": null
+    },
+    "settings": {
+      "bullet": "*"
+    }
+  }
+}
