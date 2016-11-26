@@ -1,40 +1,29 @@
-/**
- * @author Titus Wormer
- * @copyright 2016 Titus Wormer
- * @license MIT
- * @module retext-contractions
- * @fileoverview Check apostrophe use in contractions:
- *   `aint` > `ain’t`, `have’nt` > `haven’t`, &c.
- */
-
 'use strict';
 
-/* Dependencies. */
 var visit = require('unist-util-visit');
 var toString = require('nlcst-to-string');
 var literal = require('nlcst-is-literal');
 var has = require('has');
 var rules = require('./index.json');
 
-/* Expose. */
 module.exports = contractions;
 
 /* Regex to match a elided decade. */
 var DECADE = /^\d\ds$/;
 
-var data = {};
+var data = initialize();
 
-initialize();
-
-/**
- * Check contractions use.
- */
+/* Check contractions use. */
 function contractions(processor, options) {
   var ignore = options && options.allowLiterals;
   var straight = options && options.straight;
 
-  return function (tree, file) {
-    visit(tree, 'WordNode', function (node, index, parent) {
+  return transformer;
+
+  function transformer(tree, file) {
+    visit(tree, 'WordNode', visitor);
+
+    function visitor(node, index, parent) {
       var source = toString(node);
       var value = drop(source);
       var apostrophe = value !== source;
@@ -80,23 +69,26 @@ function contractions(processor, options) {
 
         message.ruleId = message.source = 'retext-contractions';
       }
-    });
-  };
+    }
+  }
 }
 
 function initialize() {
+  var result = {};
   var key;
   var value;
 
   for (key in rules) {
-    value = data[key] = rules[key];
+    value = result[key] = rules[key];
 
     /* Add upper- and sentence case as well. */
     if (key === lower(key)) {
-      data[upper(key)] = upper(value);
-      data[sentence(key)] = sentence(value);
+      result[upper(key)] = upper(value);
+      result[sentence(key)] = sentence(value);
     }
   }
+
+  return result;
 }
 
 function lower(value) {

@@ -1,19 +1,9 @@
-/**
- * @author Titus Wormer
- * @copyright 2016 Titus Wormer
- * @license MIT
- * @module retext-contractions
- * @fileoverview Test suite for `retext-contractions`.
- */
-
 'use strict';
 
-/* Dependencies. */
 var test = require('tape');
 var retext = require('retext');
 var contractions = require('./');
 
-/* Tests. */
 test('contractions(value)', function (t) {
   t.deepEqual(
     retext().use(contractions).process([
