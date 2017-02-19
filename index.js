@@ -68,6 +68,8 @@ function contractions(options) {
         }
 
         message.ruleId = message.source = 'retext-contractions';
+        message.actual = source;
+        message.expected = [suggestion];
       }
     }
   }
