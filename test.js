@@ -6,7 +6,7 @@ var contractions = require('./');
 
 test('contractions(value)', function (t) {
   t.deepEqual(
-    retext().use(contractions).process([
+    retext().use(contractions).processSync([
       'Well, it doesnt have to be so bad, yall.'
     ].join('\n')).messages.map(String),
     [
@@ -17,7 +17,7 @@ test('contractions(value)', function (t) {
   );
 
   t.deepEqual(
-    retext().use(contractions).process([
+    retext().use(contractions).processSync([
       'Well, it does’nt have to be so bad, ya\'ll.'
     ].join('\n')).messages.map(String),
     [
@@ -28,7 +28,7 @@ test('contractions(value)', function (t) {
   );
 
   t.deepEqual(
-    retext().use(contractions).process([
+    retext().use(contractions).processSync([
       'twas tis twere'
     ].join('\n')).messages.map(String),
     [
@@ -40,7 +40,7 @@ test('contractions(value)', function (t) {
   );
 
   t.deepEqual(
-    retext().use(contractions).process([
+    retext().use(contractions).processSync([
       'It was acceptable in the 80s, I mean 80’s, no wait?'
     ].join('\n')).messages.map(String),
     [
@@ -53,7 +53,7 @@ test('contractions(value)', function (t) {
   t.deepEqual(
     retext().use(contractions, {
       straight: true
-    }).process([
+    }).processSync([
       'Well, it does’nt have to be so bad, y’all.'
     ].join('\n')).messages.map(String),
     [
@@ -64,7 +64,7 @@ test('contractions(value)', function (t) {
   );
 
   t.deepEqual(
-    retext().use(contractions).process([
+    retext().use(contractions).processSync([
       '“Twas” is misspelt.'
     ].join('\n')).messages.map(String),
     [],
@@ -72,7 +72,7 @@ test('contractions(value)', function (t) {
   );
 
   t.deepEqual(
-    retext().use(contractions, {allowLiterals: true}).process([
+    retext().use(contractions, {allowLiterals: true}).processSync([
       '“Twas” is misspelt.'
     ].join('\n')).messages.map(String),
     ['1:2-1:6: Expected an apostrophe in `Twas`, like this: `’twas`'],
@@ -80,7 +80,7 @@ test('contractions(value)', function (t) {
   );
 
   t.deepEqual(
-    retext().use(contractions).process([
+    retext().use(contractions).processSync([
       'Well, it doesn’t have to be so bad, y’all.'
     ].join('\n')).messages.map(String),
     [],

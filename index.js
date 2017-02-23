@@ -14,7 +14,7 @@ var DECADE = /^\d\ds$/;
 var data = initialize();
 
 /* Check contractions use. */
-function contractions(processor, options) {
+function contractions(options) {
   var ignore = options && options.allowLiterals;
   var straight = options && options.straight;
 
