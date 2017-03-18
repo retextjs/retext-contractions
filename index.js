@@ -67,7 +67,8 @@ function contractions(options) {
           );
         }
 
-        message.ruleId = message.source = 'retext-contractions';
+        message.source = 'retext-contractions';
+        message.ruleId = 'retext-contractions';
         message.actual = source;
         message.expected = [suggestion];
       }
@@ -81,7 +82,8 @@ function initialize() {
   var value;
 
   for (key in rules) {
-    value = result[key] = rules[key];
+    value = rules[key];
+    result[key] = value;
 
     /* Add upper- and sentence case as well. */
     if (key === lower(key)) {
