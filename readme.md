@@ -71,6 +71,15 @@ that though.
 `boolean`, default: `false` — Include [literal][] phrases (the default is
 to ignore them).
 
+## Related
+
+*   [`retext-diacritics`](https://github.com/wooorm/retext-diacritics)
+    — Check for proper use of diacritics
+*   [`retext-quotes`](https://github.com/wooorm/retext-quotes)
+    — Check quote and apostrophe usage
+*   [`retext-sentence-spacing`](https://github.com/wooorm/retext-sentence-spacing)
+    — Check spacing between sentences
+
 ## License
 
 [MIT][license] © [Titus Wormer][author]
