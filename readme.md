@@ -14,26 +14,39 @@ npm install retext-contractions
 
 ## Usage
 
-```javascript
-var retext = require('retext');
-var english = require('retext-english');
-var contractions = require('retext-contractions');
-var report = require('vfile-reporter');
-
-retext().use(english).use(contractions).process([
-  'Well, it does’nt have to be so bad yall, it isnt like the 80’s.'
-].join('\n'), function (err, file) {
-  console.log(report(err || file));
-});
-```
-
-Yields:
+Say we have the following file, `example.txt`:
 
 ```text
-  1:10-1:17  warning  Expected the apostrophe in `does’nt` to be like this: `doesn’t`  retext-contractions
-  1:36-1:40  warning  Expected an apostrophe in `yall`, like this: `y’all`             retext-contractions
-  1:45-1:49  warning  Expected an apostrophe in `isnt`, like this: `isn’t`             retext-contractions
-  1:59-1:63  warning  Expected the apostrophe in `80’s` to be like this: `’80s`        retext-contractions
+Well, it does’nt have to be so bad yall, it isnt like the 80’s.
+```
+
+And our script, `example.js`, looks like this:
+
+```javascript
+var vfile = require('to-vfile');
+var report = require('vfile-reporter');
+var unified = require('unified');
+var english = require('retext-english');
+var stringify = require('retext-stringify');
+var contractions = require('retext-contractions');
+
+unified()
+  .use(english)
+  .use(contractions)
+  .use(stringify)
+  .process(vfile.readSync('example.txt'), function (err, file) {
+    console.error(report(err || file));
+  });
+```
+
+Now, running `node example` yields:
+
+```text
+example.txt
+  1:10-1:17  warning  Expected the apostrophe in `does’nt` to be like this: `doesn’t`  retext-contractions  retext-contractions
+  1:36-1:40  warning  Expected an apostrophe in `yall`, like this: `y’all`             retext-contractions  retext-contractions
+  1:45-1:49  warning  Expected an apostrophe in `isnt`, like this: `isn’t`             retext-contractions  retext-contractions
+  1:59-1:63  warning  Expected the apostrophe in `80’s` to be like this: `’80s`        retext-contractions  retext-contractions
 
 ⚠ 4 warnings
 ```
