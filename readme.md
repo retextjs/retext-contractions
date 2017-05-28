@@ -58,14 +58,18 @@ example.txt
 Emit warnings when a) elided contractions don’t have their required
 apostrophe, and b) when that apostrophe isn’t placed correctly.
 
-###### `options`
+##### `options`
 
-*   `straight` (`boolean`, default: `false`)
-    — Suggest straight (`'`) instead of smart (`’`) apostrophes.
-    Use [**retext-quotes**][quotes] if you want to properly check
-    that though.
-*   `allowLiterals` (`boolean`, default: `false`)
-    — Include [literal][] phrases (the default is to ignore them).
+###### `options.straight`
+
+`boolean`, default: `false` — Suggest straight (`'`) instead of smart (`’`)
+apostrophes.  Use [**retext-quotes**][quotes] if you want to properly check
+that though.
+
+###### `options.allowLiterals`
+
+`boolean`, default: `false` — Include [literal][] phrases (the default is
+to ignore them).
 
 ## License
 
