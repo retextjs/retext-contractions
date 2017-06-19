@@ -3,13 +3,14 @@
 var visit = require('unist-util-visit');
 var toString = require('nlcst-to-string');
 var literal = require('nlcst-is-literal');
-var has = require('has');
 var rules = require('./index.json');
 
 module.exports = contractions;
 
 /* Regex to match a elided decade. */
 var DECADE = /^\d\ds$/;
+
+var own = {}.hasOwnProperty;
 
 var data = initialize();
 
@@ -32,7 +33,7 @@ function contractions(options) {
 
       /* Suggest if either the straightened version is listed,
        * or if this is a decade (80’s and 80s > ’80s). */
-      if (has(data, value)) {
+      if (own.call(data, value)) {
         suggestion = data[value];
       } else if (DECADE.test(value)) {
         suggestion = '\'' + value;
