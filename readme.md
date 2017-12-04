@@ -73,11 +73,11 @@ to ignore them).
 
 ## Related
 
-*   [`retext-diacritics`](https://github.com/wooorm/retext-diacritics)
+*   [`retext-diacritics`](https://github.com/retextjs/retext-diacritics)
     — Check for proper use of diacritics
-*   [`retext-quotes`](https://github.com/wooorm/retext-quotes)
+*   [`retext-quotes`](https://github.com/retextjs/retext-quotes)
     — Check quote and apostrophe usage
-*   [`retext-sentence-spacing`](https://github.com/wooorm/retext-sentence-spacing)
+*   [`retext-sentence-spacing`](https://github.com/retextjs/retext-sentence-spacing)
     — Check spacing between sentences
 
 ## License
@@ -86,13 +86,13 @@ to ignore them).
 
 <!-- Definitions -->
 
-[travis-badge]: https://img.shields.io/travis/wooorm/retext-contractions.svg
+[travis-badge]: https://img.shields.io/travis/retextjs/retext-contractions.svg
 
-[travis]: https://travis-ci.org/wooorm/retext-contractions
+[travis]: https://travis-ci.org/retextjs/retext-contractions
 
-[codecov-badge]: https://img.shields.io/codecov/c/github/wooorm/retext-contractions.svg
+[codecov-badge]: https://img.shields.io/codecov/c/github/retextjs/retext-contractions.svg
 
-[codecov]: https://codecov.io/github/wooorm/retext-contractions
+[codecov]: https://codecov.io/github/retextjs/retext-contractions
 
 [npm-install]: https://docs.npmjs.com/cli/install
 
@@ -100,8 +100,8 @@ to ignore them).
 
 [author]: http://wooorm.com
 
-[retext]: https://github.com/wooorm/retext
+[retext]: https://github.com/retextjs/retext
 
-[quotes]: https://github.com/wooorm/retext-quotes
+[quotes]: https://github.com/retextjs/retext-quotes
 
-[literal]: https://github.com/wooorm/nlcst-is-literal
+[literal]: https://github.com/syntax-tree/nlcst-is-literal
