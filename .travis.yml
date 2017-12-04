@@ -1,7 +1,7 @@
 language: node_js
 node_js:
 - '4.0'
-- '8.0'
+- '9.0'
 after_script: bash <(curl -s https://codecov.io/bash)
 deploy:
   - provider: npm
@@ -10,7 +10,7 @@ deploy:
       secure: ApPkgPXoyoC8Yy+sexSkk6qyHEdjkfL6XkbgF2VVp909rLxb+j/pQUlqFLxoBHT93bCdKJ4vGqlq61QhPC7ga7FNgIA9p3JkANy2395HqdqveiYI82KrIaEgjGi0F/ItN1z//2L4B3ru2YhV6adoE7wp2lDvF4756jT81Q8XnWOAsfMhM4tjHD8Dpas5PHTm9Lq03eaJX4Y4qLu7IA5olFDOg7MKTaxTgb09C7anQluw6tRCau3+7g4lO6C5X1UB2L6isKizLA99itWCyRC5YwEbEkVBbL79sS9ojQkkfY16EfokVCU7TWT1/2dByjuLnpwji5d9Ft5ziNO3khtUV0+3xce5CwcwOyYQNPnvZgw+Y0zk53X84CwXCOfsEX0Rxb+P0SIxuS7J8y6RJ8hUUqQeGbfX39f2LkheB8AOJe9l173HL671Rk2eHJbDLXDbcviV9uBd4GMqFM2gu44LmhhWEBaVNHjL/flDARa97oir8kDG7czPBUPmggv2EgecNmQXrP9H49Tw+AjDy/Z9SsMDe+ZXyAjCaA5drE4n90LAuovpyR7MwJ/iD9zydFzmBZSbGXBvws+rRQ4cZZP9YjCv3tMJJJq4m3QA2oLKX6HrKlHj5JugfWLBpwk/zX/c3IHxsMzGAJDVOJ/+2gCBaiZYSvXIb1DhDzqkt+/rPJ4=
     on:
       tags: true
-      node: '8.0'
+      node: '9.0'
   - provider: releases
     api_key:
       secure: Dn5aRthM4yx1BlbYO20P+7OCuWBgkXhOFe0zkzP0kaHYCQ/eMU+7qP1eqrHzC7MudHwFM/MEA2kNAtqwQjHzkvyFF8jpenbR4o3MGxpfU1n7pSz2rv7mEGXj/uDnBy19rKqJg48PNOlqtdbGfDSQR4OIydT4H8pMJ5DK+D5W0/HrkBEPxQgY0iL+RM+CrBCy/DVDMwGKbiYMuBqGmda0fp1knlcIPoQW/aRMfASOvHSxFnCMapnv2/nARWJGu/juzCieFlbYqWjxbXb0Z4aWnf/PIfqnAEZ3WmHJMOce+O9C0PME15QcT3msEdzcJCq80qYsuk3EIQnMVUJkmsDr5E/hS4djOxfZNipesw/VQLVnTaY8AdrpuBXzb/vUZPlnmRM+9JJuom6aJnD7G5oWnhgykTitKvXsiqMAh65zj6DIJJ1izWRd27hHf+8h4UN1AWhuQVA6GZgpFE/PsfeW445mLrcD3Cgq9XnSJqsm9c7WXMRVyoNA7hOeSd6xDcyWL5CT2A0Jcnnba1VyE6pPj+f/4FFbGna4augjNHLFx3B7LaFxh4mOva4XSEzCSdiEP98C6wxUyyEmfv8cN8K7tEQY5ChHADWKSwZhaCnrOQijgXDdkjhVBBjOjsOxslcnNYhWlvhqG3ErQoEirfzO6mDuBazcH4EOvyVQHRagGQo=
@@ -19,4 +19,4 @@ deploy:
       - "retext-contractions.min.js"
     on:
       tags: true
-      node: '8.0'
+      node: '9.0'
