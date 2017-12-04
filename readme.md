@@ -80,6 +80,13 @@ to ignore them).
 *   [`retext-sentence-spacing`](https://github.com/retextjs/retext-sentence-spacing)
     — Check spacing between sentences
 
+## Contribute
+
+See [`contribute.md` in `retextjs/retext`][contribute] for ways to get started.
+
+This organisation has a [Code of Conduct][coc].  By interacting with this
+repository, organisation, or community you agree to abide by its terms.
+
 ## License
 
 [MIT][license] © [Titus Wormer][author]
@@ -105,3 +112,7 @@ to ignore them).
 [quotes]: https://github.com/retextjs/retext-quotes
 
 [literal]: https://github.com/syntax-tree/nlcst-is-literal
+
+[contribute]: https://github.com/retextjs/retext/blob/master/contributing.md
+
+[coc]: https://github.com/retextjs/retext/blob/master/code-of-conduct.md
