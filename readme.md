@@ -1,4 +1,4 @@
-# retext-contractions [![Build Status][travis-badge]][travis] [![Coverage Status][codecov-badge]][codecov]
+# retext-contractions [![Build][build-badge]][build] [![Coverage][coverage-badge]][coverage] [![Downloads][downloads-badge]][downloads] [![Chat][chat-badge]][chat]
 
 Check apostrophes in elided contractions: if they exist (`isnt` >
 `isn’t`) and if they are placed properly (`is’nt` > `isn’t`).  All with
@@ -94,13 +94,21 @@ repository, organisation, or community you agree to abide by its terms.
 
 <!-- Definitions -->
 
-[travis-badge]: https://img.shields.io/travis/retextjs/retext-contractions.svg
+[build-badge]: https://img.shields.io/travis/retextjs/retext-contractions.svg
 
-[travis]: https://travis-ci.org/retextjs/retext-contractions
+[build]: https://travis-ci.org/retextjs/retext-contractions
 
-[codecov-badge]: https://img.shields.io/codecov/c/github/retextjs/retext-contractions.svg
+[coverage-badge]: https://img.shields.io/codecov/c/github/retextjs/retext-contractions.svg
 
-[codecov]: https://codecov.io/github/retextjs/retext-contractions
+[coverage]: https://codecov.io/github/retextjs/retext-contractions
+
+[downloads-badge]: https://img.shields.io/npm/dm/retext-contractions.svg
+
+[downloads]: https://www.npmjs.com/package/retext-contractions
+
+[chat-badge]: https://img.shields.io/badge/join%20the%20community-on%20spectrum-7b16ff.svg
+
+[chat]: https://spectrum.chat/unified/retext
 
 [npm-install]: https://docs.npmjs.com/cli/install
 
