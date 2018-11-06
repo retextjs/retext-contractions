@@ -2,7 +2,7 @@
 
 var test = require('tape');
 var retext = require('retext');
-var contractions = require('./');
+var contractions = require('.');
 
 test('contractions(value)', function (t) {
   t.deepEqual(
