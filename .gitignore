@@ -5,3 +5,4 @@ coverage/
 node_modules/
 retext-contractions.js
 retext-contractions.min.js
+yarn.lock
