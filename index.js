@@ -7,7 +7,7 @@ var rules = require('./index.json')
 
 module.exports = contractions
 
-// Regex to match a elided decade.
+// Regex to match an elided decade.
 var decadeExpression = /^\d\ds$/
 var apostropheExpression = /['’]/g
 var source = 'retext-contractions'
