@@ -1,7 +1,7 @@
 language: node_js
 node_js:
-- lts/boron
-- node
+  - lts/dubnium
+  - node
 after_script: bash <(curl -s https://codecov.io/bash)
 deploy:
   provider: releases
@@ -9,7 +9,7 @@ deploy:
   api_key:
     secure: H/2dHV1pH/erRygHdIZdqX11whIOhJfVQDMbYOdcVlY+SkcB7shDBZ5m5h/C7T8fm0LhOHkudIu6fTN25QIGrav8op3xWpRQY+5Q99C+2MoNbeADaSvjkejcswEv+IZqgfk7OBxtRclbrHa5jm3nfcxXteZcu4A8EhZvBb29laYQnqMNnlX0VisyDS3ltUeOyyDfQgiZIwpuS6BsMQ5PGm6Pm7Lhr+b+fVO2hNsaAS6xM1ZNkiKo9o51BTvUJotzAY56w7LF+G5VLtjUSBqDz7Q76hAWqGkWE601D2w9lxxb2nLZ879YzSCPTHbSwvjAzt+oM5eOzroVrEc3cQkkj9+g++kobU/H6v3UBZ0SAigPQbnUURYYQTefvqG+vLLeCeTNRJSBPGydZKj/GuTT64+5TfyjFeuDtSx+QefOQH9uSkI0sTV5cb+SFyyEt1dBV5x/wzoNTTltDP/Y5okSL3IqL0CD7abzZeZMh6r8JwdXfgRw4yaQ0f4FaBb8tsJ5VbxM4Lseqb3fMExG+qOUdZHrsgX18VZWLf+oVs5724hBsZIZgF/ATtigRomkqaG735yHUdmdSc4lCJxRREC0hPizngSvhLJpzJP7CbCFrHOYEghawXf5mI7uGW+/U4yKesLfeRchfItDMW/HwMN+nreLWY6Yg+RIy7g7iFqO1Gg=
   file:
-    - "retext-contractions.js"
-    - "retext-contractions.min.js"
+    - 'retext-contractions.js'
+    - 'retext-contractions.min.js'
   on:
     tags: true
