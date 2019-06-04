@@ -1,28 +1,35 @@
-# retext-contractions [![Build][build-badge]][build] [![Coverage][coverage-badge]][coverage] [![Downloads][downloads-badge]][downloads] [![Chat][chat-badge]][chat]
+# retext-contractions
 
-Check apostrophes in elided contractions: if they exist (`isnt` >
-`isn’t`) and if they are placed properly (`is’nt` > `isn’t`).  All with
-[**retext**][retext].
+[![Build][build-badge]][build]
+[![Coverage][coverage-badge]][coverage]
+[![Downloads][downloads-badge]][downloads]
+[![Size][size-badge]][size]
+[![Sponsors][sponsors-badge]][collective]
+[![Backers][backers-badge]][collective]
+[![Chat][chat-badge]][chat]
 
-## Installation
+[**retext**][retext] plugin to check apostrophes in elided contractions: if they
+exist (`isnt` > `isn’t`) and if they are placed properly (`is’nt` > `isn’t`).
 
-[npm][npm-install]:
+## Install
 
-```bash
+[npm][]:
+
+```sh
 npm install retext-contractions
 ```
 
-## Usage
+## Use
 
 Say we have the following file, `example.txt`:
 
-```text
+```txt
 Well, it does’nt have to be so bad yall, it isnt like the 80’s.
 ```
 
-And our script, `example.js`, looks like this:
+…and our script, `example.js`, looks like this:
 
-```javascript
+```js
 var vfile = require('to-vfile')
 var report = require('vfile-reporter')
 var unified = require('unified')
@@ -41,7 +48,7 @@ unified()
 
 Now, running `node example` yields:
 
-```text
+```txt
 example.txt
   1:10-1:17  warning  Expected the apostrophe in `does’nt` to be like this: `doesn’t`  retext-contractions  retext-contractions
   1:36-1:40  warning  Expected an apostrophe in `yall`, like this: `y’all`             retext-contractions  retext-contractions
@@ -55,21 +62,21 @@ example.txt
 
 ### `retext().use(contractions[, options])`
 
-Emit warnings when a) elided contractions don’t have their required
-apostrophe, and b) when that apostrophe isn’t placed correctly.
+Emit warnings when a) elided contractions don’t have their required apostrophe,
+and b) when that apostrophe isn’t placed correctly.
 
 ##### `options`
 
 ###### `options.straight`
 
-`boolean`, default: `false` — Suggest straight (`'`) instead of smart (`’`)
-apostrophes.  Use [**retext-quotes**][quotes] if you want to properly check
-that though.
+Suggest straight (`'`) instead of smart (`’`) apostrophes (`boolean`, default:
+`false`).
+Use [`retext-quotes`][quotes] if you want to properly check that though.
 
 ###### `options.allowLiterals`
 
-`boolean`, default: `false` — Include [literal][] phrases (the default is
-to ignore them).
+Include [literal][] phrases (`boolean`, default: `false`).
+The default is to ignore them.
 
 ## Related
 
@@ -82,11 +89,13 @@ to ignore them).
 
 ## Contribute
 
-See [`contributing.md` in `retextjs/retext`][contributing] for ways to get
-started.
+See [`contributing.md`][contributing] in [`retextjs/.github`][health] for ways
+to get started.
+See [`support.md`][support] for ways to get help.
 
-This organisation has a [Code of Conduct][coc].  By interacting with this
-repository, organisation, or community you agree to abide by its terms.
+This project has a [Code of Conduct][coc].
+By interacting with this repository, organisation, or community you agree to
+abide by its terms.
 
 ## License
 
@@ -106,11 +115,29 @@ repository, organisation, or community you agree to abide by its terms.
 
 [downloads]: https://www.npmjs.com/package/retext-contractions
 
+[size-badge]: https://img.shields.io/bundlephobia/minzip/retext-contractions.svg
+
+[size]: https://bundlephobia.com/result?p=retext-contractions
+
+[sponsors-badge]: https://opencollective.com/unified/sponsors/badge.svg
+
+[backers-badge]: https://opencollective.com/unified/backers/badge.svg
+
+[collective]: https://opencollective.com/unified
+
 [chat-badge]: https://img.shields.io/badge/join%20the%20community-on%20spectrum-7b16ff.svg
 
 [chat]: https://spectrum.chat/unified/retext
 
-[npm-install]: https://docs.npmjs.com/cli/install
+[npm]: https://docs.npmjs.com/cli/install
+
+[health]: https://github.com/retextjs/.github
+
+[contributing]: https://github.com/retextjs/.github/blob/master/contributing.md
+
+[support]: https://github.com/retextjs/.github/blob/master/support.md
+
+[coc]: https://github.com/retextjs/.github/blob/master/code-of-conduct.md
 
 [license]: license
 
@@ -121,7 +148,3 @@ repository, organisation, or community you agree to abide by its terms.
 [quotes]: https://github.com/retextjs/retext-quotes
 
 [literal]: https://github.com/syntax-tree/nlcst-is-literal
-
-[contributing]: https://github.com/retextjs/retext/blob/master/contributing.md
-
-[coc]: https://github.com/retextjs/retext/blob/master/code-of-conduct.md
