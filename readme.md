@@ -78,6 +78,20 @@ Use [`retext-quotes`][quotes] if you want to properly check that though.
 Include [literal][] phrases (`boolean`, default: `false`).
 The default is to ignore them.
 
+### Messages
+
+The following [`VFileMessage`][message]s are used:
+
+| `source` | `ruleId` | Example | Reason |
+| -------- | -------- | ------- | ------ |
+| `retext-contractions` | `missing-smart-apostrophe` | `Yall` | Expected an apostrophe in `Yall`, like this: `Y’all` |
+| `retext-contractions` | `missing-straight-apostrophe` | `Yall`, with `straight: true` | Expected an apostrophe in `Dont`, like this: `Don't` |
+| `retext-contractions` | `straight-apostrophe` | `Don't` | Expected the apostrophe in `Don't` to be like this: `Don’t` |
+| `retext-contractions` | `smart-apostrophe` | `Don’t`, with `straight: true` | Expected the apostrophe in `Don’t` to be like this: `Don't` |
+
+The offending value is stored at `message.actual`, and the suggested values are
+stored at `message.expected`.
+
 ## Related
 
 *   [`retext-diacritics`](https://github.com/retextjs/retext-diacritics)
@@ -148,3 +162,5 @@ abide by its terms.
 [quotes]: https://github.com/retextjs/retext-quotes
 
 [literal]: https://github.com/syntax-tree/nlcst-is-literal
+
+[message]: https://github.com/vfile/vfile-message

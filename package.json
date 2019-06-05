@@ -72,8 +72,15 @@
     ]
   },
   "remarkConfig": {
+    "settings": {
+      "paddedTable": false
+    },
     "plugins": [
-      "preset-wooorm"
+      "preset-wooorm",
+      [
+        "lint-table-pipe-alignment",
+        false
+      ]
     ]
   }
 }
