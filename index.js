@@ -7,10 +7,16 @@ var rules = require('./index.json')
 
 module.exports = contractions
 
+// Rules.
+var source = 'retext-contractions'
+var missingStraightId = 'missing-straight-apostrophe'
+var missingSmartId = 'missing-smart-apostrophe'
+var straightId = 'smart-apostrophe'
+var smartId = 'straight-apostrophe'
+
 // Regex to match an elided decade.
 var decadeExpression = /^\d\ds$/
 var apostropheExpression = /['’]/g
-var source = 'retext-contractions'
 var apostrophe = "'"
 var rightSingleQuotationMark = '’'
 
@@ -65,7 +71,8 @@ function contractions(options) {
               'like this: `' +
               expected +
               '`',
-            node
+            node,
+            [source, straight ? missingStraightId : missingSmartId].join(':')
           )
         } else {
           message = file.message(
@@ -75,12 +82,11 @@ function contractions(options) {
               'like this: `' +
               expected +
               '`',
-            node
+            node,
+            [source, straight ? straightId : smartId].join(':')
           )
         }
 
-        message.source = source
-        message.ruleId = source
         message.actual = actual
         message.expected = [expected]
       }

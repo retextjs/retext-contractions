@@ -8,7 +8,107 @@ test('contractions(value)', function(t) {
   t.deepEqual(
     retext()
       .use(contractions)
-      .processSync(['Well, it doesnt have to be so bad, yall.'].join('\n'))
+      .processSync('Yall.').messages,
+    [
+      {
+        message: 'Expected an apostrophe in `Yall`, like this: `Y’all`',
+        name: '1:1-1:5',
+        reason: 'Expected an apostrophe in `Yall`, like this: `Y’all`',
+        line: 1,
+        column: 1,
+        location: {
+          start: {line: 1, column: 1, offset: 0},
+          end: {line: 1, column: 5, offset: 4}
+        },
+        source: 'retext-contractions',
+        ruleId: 'missing-smart-apostrophe',
+        fatal: false,
+        actual: 'Yall',
+        expected: ['Y’all']
+      }
+    ],
+    'should message for missing smart apostrophes'
+  )
+
+  t.deepEqual(
+    retext()
+      .use(contractions, {straight: true})
+      .processSync('Dont.').messages,
+    [
+      {
+        message: "Expected an apostrophe in `Dont`, like this: `Don't`",
+        name: '1:1-1:5',
+        reason: "Expected an apostrophe in `Dont`, like this: `Don't`",
+        line: 1,
+        column: 1,
+        location: {
+          start: {line: 1, column: 1, offset: 0},
+          end: {line: 1, column: 5, offset: 4}
+        },
+        source: 'retext-contractions',
+        ruleId: 'missing-straight-apostrophe',
+        fatal: false,
+        actual: 'Dont',
+        expected: ["Don't"]
+      }
+    ],
+    'should message for missing straight apostrophes'
+  )
+
+  t.deepEqual(
+    retext()
+      .use(contractions)
+      .processSync("Don't.").messages,
+    [
+      {
+        message: "Expected the apostrophe in `Don't` to be like this: `Don’t`",
+        name: '1:1-1:6',
+        reason: "Expected the apostrophe in `Don't` to be like this: `Don’t`",
+        line: 1,
+        column: 1,
+        location: {
+          start: {line: 1, column: 1, offset: 0},
+          end: {line: 1, column: 6, offset: 5}
+        },
+        source: 'retext-contractions',
+        ruleId: 'straight-apostrophe',
+        fatal: false,
+        actual: "Don't",
+        expected: ['Don’t']
+      }
+    ],
+    'should message for an expected smart apostrophe'
+  )
+
+  t.deepEqual(
+    retext()
+      .use(contractions, {straight: true})
+      .processSync('Don’t.').messages,
+    [
+      {
+        message: "Expected the apostrophe in `Don’t` to be like this: `Don't`",
+        name: '1:1-1:6',
+        reason: "Expected the apostrophe in `Don’t` to be like this: `Don't`",
+        line: 1,
+        column: 1,
+        location: {
+          start: {line: 1, column: 1, offset: 0},
+          end: {line: 1, column: 6, offset: 5}
+        },
+        source: 'retext-contractions',
+        ruleId: 'smart-apostrophe',
+        fatal: false,
+        actual: 'Don’t',
+        expected: ["Don't"]
+      }
+    ],
+    'should message for an expected straight apostrophe'
+  )
+
+  t.deepEqual(
+    retext()
+      .use(contractions)
+      .processSync('Well, it doesnt have to be so bad, yall.')
       .messages.map(String),
     [
       '1:10-1:16: Expected an apostrophe in `doesnt`, like this: `doesn’t`',
@@ -20,7 +120,7 @@ test('contractions(value)', function(t) {
   t.deepEqual(
     retext()
       .use(contractions)
-      .processSync(["Well, it does’nt have to be so bad, ya'll."].join('\n'))
+      .processSync("Well, it does’nt have to be so bad, ya'll.")
       .messages.map(String),
     [
       '1:10-1:17: Expected the apostrophe in `does’nt` to be like this: `doesn’t`',
@@ -32,7 +132,7 @@ test('contractions(value)', function(t) {
   t.deepEqual(
     retext()
       .use(contractions)
-      .processSync(['twas tis twere'].join('\n'))
+      .processSync('twas tis twere')
       .messages.map(String),
     [
       '1:1-1:5: Expected an apostrophe in `twas`, like this: `’twas`',
@@ -58,9 +158,7 @@ test('contractions(value)', function(t) {
 
   t.deepEqual(
     retext()
-      .use(contractions, {
-        straight: true
-      })
+      .use(contractions, {straight: true})
       .processSync(['Well, it does’nt have to be so bad, y’all.'].join('\n'))
       .messages.map(String),
     [
