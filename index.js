@@ -58,7 +58,7 @@ function contractions(options) {
         }
 
         if (normal === actual) {
-          message = file.warn(
+          message = file.message(
             'Expected an apostrophe in `' +
               actual +
               '`, ' +
@@ -68,7 +68,7 @@ function contractions(options) {
             node
           )
         } else {
-          message = file.warn(
+          message = file.message(
             'Expected the apostrophe in `' +
               actual +
               '` to be ' +
