@@ -15,9 +15,7 @@ var straightId = 'smart-apostrophe'
 var smartId = 'straight-apostrophe'
 
 // Regex to match an elided decade.
-var decadeExpression = /^\d\ds$/
 var apostropheExpression = /['’]/g
-var apostrophe = "'"
 var rightSingleQuotationMark = '’'
 
 var own = {}.hasOwnProperty
@@ -40,15 +38,10 @@ function contractions(options) {
       var expected
       var message
 
-      // Suggest if either the straightened version is listed, or if this is a
-      // decade (80’s and 80s > ’80s).
+      // Suggest if the straightened version is listed.
       if (own.call(data, normal)) {
         expected = data[normal]
-      } else if (decadeExpression.test(normal)) {
-        expected = apostrophe + normal
-      }
 
-      if (expected) {
         if (!straight) {
           expected = smarten(expected)
         }

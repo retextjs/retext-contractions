@@ -149,11 +149,8 @@ test('contractions(value)', function(t) {
         ['It was acceptable in the 80s, I mean 80’s, no wait?'].join('\n')
       )
       .messages.map(String),
-    [
-      '1:26-1:29: Expected an apostrophe in `80s`, like this: `’80s`',
-      '1:38-1:42: Expected the apostrophe in `80’s` to be like this: `’80s`'
-    ],
-    'should catch decades'
+    [],
+    'should ignore decades (GH-7)'
   )
 
   t.deepEqual(
