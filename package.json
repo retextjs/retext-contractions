@@ -1,6 +1,6 @@
 {
   "name": "retext-contractions",
-  "version": "3.0.0",
+  "version": "4.0.0",
   "description": "retext plugin to check apostrophes in elided contractions",
   "license": "MIT",
   "keywords": [
