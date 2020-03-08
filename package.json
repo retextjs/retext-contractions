@@ -1,11 +1,12 @@
 {
   "name": "retext-contractions",
   "version": "3.0.0",
-  "description": "retext plugin to check apostrophe use in contractions",
+  "description": "retext plugin to check apostrophes in elided contractions",
   "license": "MIT",
   "keywords": [
     "unified",
     "retext",
+    "retext-plugin",
     "plugin",
     "apostrophe",
     "contraction",
