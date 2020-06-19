@@ -4,11 +4,11 @@ var test = require('tape')
 var retext = require('retext')
 var contractions = require('.')
 
-test('contractions(value)', function(t) {
+test('contractions(value)', function (t) {
   t.deepEqual(
-    retext()
-      .use(contractions)
-      .processSync('Yall.').messages,
+    JSON.parse(
+      JSON.stringify(retext().use(contractions).processSync('Yall.').messages)
+    ),
     [
       {
         message: 'Expected an apostrophe in `Yall`, like this: `Y’all`',
@@ -33,75 +33,24 @@ test('contractions(value)', function(t) {
   t.deepEqual(
     retext()
       .use(contractions, {straight: true})
-      .processSync('Dont.').messages,
-    [
-      {
-        message: "Expected an apostrophe in `Dont`, like this: `Don't`",
-        name: '1:1-1:5',
-        reason: "Expected an apostrophe in `Dont`, like this: `Don't`",
-        line: 1,
-        column: 1,
-        location: {
-          start: {line: 1, column: 1, offset: 0},
-          end: {line: 1, column: 5, offset: 4}
-        },
-        source: 'retext-contractions',
-        ruleId: 'missing-straight-apostrophe',
-        fatal: false,
-        actual: 'Dont',
-        expected: ["Don't"]
-      }
-    ],
+      .processSync('Dont.')
+      .messages.map(String),
+    ["1:1-1:5: Expected an apostrophe in `Dont`, like this: `Don't`"],
     'should message for missing straight apostrophes'
   )
 
   t.deepEqual(
-    retext()
-      .use(contractions)
-      .processSync("Don't.").messages,
-    [
-      {
-        message: "Expected the apostrophe in `Don't` to be like this: `Don’t`",
-        name: '1:1-1:6',
-        reason: "Expected the apostrophe in `Don't` to be like this: `Don’t`",
-        line: 1,
-        column: 1,
-        location: {
-          start: {line: 1, column: 1, offset: 0},
-          end: {line: 1, column: 6, offset: 5}
-        },
-        source: 'retext-contractions',
-        ruleId: 'straight-apostrophe',
-        fatal: false,
-        actual: "Don't",
-        expected: ['Don’t']
-      }
-    ],
+    retext().use(contractions).processSync("Don't.").messages.map(String),
+    ["1:1-1:6: Expected the apostrophe in `Don't` to be like this: `Don’t`"],
     'should message for an expected smart apostrophe'
   )
 
   t.deepEqual(
     retext()
       .use(contractions, {straight: true})
-      .processSync('Don’t.').messages,
-    [
-      {
-        message: "Expected the apostrophe in `Don’t` to be like this: `Don't`",
-        name: '1:1-1:6',
-        reason: "Expected the apostrophe in `Don’t` to be like this: `Don't`",
-        line: 1,
-        column: 1,
-        location: {
-          start: {line: 1, column: 1, offset: 0},
-          end: {line: 1, column: 6, offset: 5}
-        },
-        source: 'retext-contractions',
-        ruleId: 'smart-apostrophe',
-        fatal: false,
-        actual: 'Don’t',
-        expected: ["Don't"]
-      }
-    ],
+      .processSync('Don’t.')
+      .messages.map(String),
+    ["1:1-1:6: Expected the apostrophe in `Don’t` to be like this: `Don't`"],
     'should message for an expected straight apostrophe'
   )
 

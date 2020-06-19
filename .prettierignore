@@ -1,3 +1,5 @@
 coverage/
 retext-contractions.js
 retext-contractions.min.js
+*.json
+*.md

@@ -83,7 +83,7 @@ The default is to ignore them.
 The following [`VFileMessage`][message]s are used:
 
 | `source` | `ruleId` | Example | Reason |
-| -------- | -------- | ------- | ------ |
+| - | - | - | - |
 | `retext-contractions` | `missing-smart-apostrophe` | `Yall` | Expected an apostrophe in `Yall`, like this: `Y’all` |
 | `retext-contractions` | `missing-straight-apostrophe` | `Yall`, with `straight: true` | Expected an apostrophe in `Dont`, like this: `Don't` |
 | `retext-contractions` | `straight-apostrophe` | `Don't` | Expected the apostrophe in `Don't` to be like this: `Don’t` |
