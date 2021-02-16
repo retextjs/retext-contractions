@@ -56,29 +56,30 @@ function contractions(options) {
           return
         }
 
-        if (normal === actual) {
-          message = file.message(
-            'Expected an apostrophe in `' +
-              actual +
-              '`, ' +
-              'like this: `' +
-              expected +
-              '`',
-            node,
-            [source, straight ? missingStraightId : missingSmartId].join(':')
-          )
-        } else {
-          message = file.message(
-            'Expected the apostrophe in `' +
-              actual +
-              '` to be ' +
-              'like this: `' +
-              expected +
-              '`',
-            node,
-            [source, straight ? straightId : smartId].join(':')
-          )
-        }
+        message =
+          normal === actual
+            ? file.message(
+                'Expected an apostrophe in `' +
+                  actual +
+                  '`, ' +
+                  'like this: `' +
+                  expected +
+                  '`',
+                node,
+                [source, straight ? missingStraightId : missingSmartId].join(
+                  ':'
+                )
+              )
+            : file.message(
+                'Expected the apostrophe in `' +
+                  actual +
+                  '` to be ' +
+                  'like this: `' +
+                  expected +
+                  '`',
+                node,
+                [source, straight ? straightId : smartId].join(':')
+              )
 
         message.actual = actual
         message.expected = [expected]
