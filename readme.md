@@ -117,9 +117,9 @@ abide by its terms.
 
 <!-- Definitions -->
 
-[build-badge]: https://img.shields.io/travis/retextjs/retext-contractions.svg
+[build-badge]: https://github.com/retextjs/retext-contractions/workflows/main/badge.svg
 
-[build]: https://travis-ci.org/retextjs/retext-contractions
+[build]: https://github.com/retextjs/retext-contractions/actions
 
 [coverage-badge]: https://img.shields.io/codecov/c/github/retextjs/retext-contractions.svg
 
