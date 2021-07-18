@@ -1,6 +1,6 @@
-import visit from 'unist-util-visit'
-import toString from 'nlcst-to-string'
-import literal from 'nlcst-is-literal'
+import {visit} from 'unist-util-visit'
+import {toString} from 'nlcst-to-string'
+import {isLiteral} from 'nlcst-is-literal'
 import {list} from './list.js'
 
 // Rules.
@@ -48,7 +48,7 @@ export default function retextContractions(options) {
         }
 
         // Ignore literal misspelt words: `like this: “hasnt”`.
-        if (!ignore && literal(parent, index)) {
+        if (!ignore && isLiteral(parent, index)) {
           return
         }
 
