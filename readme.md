@@ -13,6 +13,9 @@ exist (`isnt` > `isn’t`) and if they are placed properly (`is’nt` > `isn’t
 
 ## Install
 
+This package is [ESM only](https://gist.github.com/sindresorhus/a39789f98801d908bbc7ff3ecc99d99c):
+Node 12+ is needed to use it and it must be `import`ed instead of `require`d.
+
 [npm][]:
 
 ```sh
@@ -30,19 +33,21 @@ Well, it does’nt have to be so bad yall, it isnt like the 80’s.
 …and our script, `example.js`, looks like this:
 
 ```js
-var vfile = require('to-vfile')
-var report = require('vfile-reporter')
-var unified = require('unified')
-var english = require('retext-english')
-var stringify = require('retext-stringify')
-var contractions = require('retext-contractions')
+import {readSync} from 'to-vfile'
+import {reporter} from 'vfile-reporter'
+import {unified} from 'unified'
+import retextEnglish from 'retext-english'
+import retextContractions from 'retext-contractions'
+import retextStringify from 'retext-stringify'
+
+const file = readSync('example.txt')
 
 unified()
-  .use(english)
-  .use(contractions)
-  .use(stringify)
-  .process(vfile.readSync('example.txt'), function(err, file) {
-    console.error(report(err || file))
+  .use(retextEnglish)
+  .use(retextContractions)
+  .use(retextStringify)
+  .process(file, (file) => {
+    console.error(reporter(file))
   })
 ```
 
@@ -60,7 +65,10 @@ example.txt
 
 ## API
 
-### `retext().use(contractions[, options])`
+This package exports no identifiers.
+The default export is `retextContractions`.
+
+### `retext().use(retextContractions[, options])`
 
 Emit warnings when a) elided contractions don’t have their required apostrophe,
 and b) when that apostrophe isn’t placed correctly.
