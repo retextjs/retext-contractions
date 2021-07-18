@@ -1,3 +1,4 @@
+/** @type {Record<string, string>} */
 export const list = {
   aint: "ain't",
   arent: "aren't",

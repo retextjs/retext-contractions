@@ -1,3 +1,14 @@
+/**
+ * @typedef Options
+ *   Configuration.
+ * @property {boolean} [allowLiterals=false]
+ *   Suggest straight (`'`) instead of smart (`’`) apostrophes.
+ *   Use `retext-quotes` if you want to properly check that though.
+ * @property {boolean} [straight=false]
+ *   Include literal phrases.
+ *   The default is to ignore them.
+ */
+
 import {visit} from 'unist-util-visit'
 import {toString} from 'nlcst-to-string'
 import {isLiteral} from 'nlcst-is-literal'
@@ -10,7 +21,11 @@ const own = {}.hasOwnProperty
 
 const data = initialize()
 
-// Check contractions use.
+/**
+ * Plugin to check contractions use.
+ *
+ * @type {import('unified').Plugin<[Options?]>}
+ */
 export default function retextContractions(options = {}) {
   const ignore = options.allowLiterals
   const straight = options.straight
@@ -32,7 +47,7 @@ export default function retextContractions(options = {}) {
           // Perfect.
           actual === expected ||
           // Ignore literal misspelt words: `like this: “hasnt”`.
-          (!ignore && isLiteral(parent, index))
+          (parent && index !== null && !ignore && isLiteral(parent, index))
         ) {
           return
         }
@@ -66,8 +81,11 @@ export default function retextContractions(options = {}) {
   }
 }
 
+/** @returns {Record<string, string>} */
 function initialize() {
+  /** @type {Record<string, string>} */
   const result = {}
+  /** @type {string} */
   let key
 
   for (key in list) {
