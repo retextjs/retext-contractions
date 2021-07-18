@@ -1,8 +1,6 @@
-'use strict'
-
-var test = require('tape')
-var retext = require('retext')
-var contractions = require('.')
+import test from 'tape'
+import retext from 'retext'
+import contractions from './index.js'
 
 test('contractions(value)', function (t) {
   t.deepEqual(

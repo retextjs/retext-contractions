@@ -1,11 +1,7 @@
-'use strict'
-
-var visit = require('unist-util-visit')
-var toString = require('nlcst-to-string')
-var literal = require('nlcst-is-literal')
-var rules = require('./index.json')
-
-module.exports = contractions
+import visit from 'unist-util-visit'
+import toString from 'nlcst-to-string'
+import literal from 'nlcst-is-literal'
+import {list} from './list.js'
 
 // Rules.
 var source = 'retext-contractions'
@@ -23,7 +19,7 @@ var own = {}.hasOwnProperty
 var data = initialize()
 
 // Check contractions use.
-function contractions(options) {
+export default function retextContractions(options) {
   var ignore = options && options.allowLiterals
   var straight = options && options.straight
 
@@ -93,8 +89,8 @@ function initialize() {
   var key
   var value
 
-  for (key in rules) {
-    value = rules[key]
+  for (key in list) {
+    value = list[key]
     result[key] = value
 
     // Add upper- and sentence case as well.
