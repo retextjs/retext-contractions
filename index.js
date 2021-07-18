@@ -4,121 +4,86 @@ import {isLiteral} from 'nlcst-is-literal'
 import {list} from './list.js'
 
 // Rules.
-var source = 'retext-contractions'
-var missingStraightId = 'missing-straight-apostrophe'
-var missingSmartId = 'missing-smart-apostrophe'
-var straightId = 'smart-apostrophe'
-var smartId = 'straight-apostrophe'
+const source = 'retext-contractions'
 
-// Regex to match an elided decade.
-var apostropheExpression = /['’]/g
-var rightSingleQuotationMark = '’'
+const own = {}.hasOwnProperty
 
-var own = {}.hasOwnProperty
-
-var data = initialize()
+const data = initialize()
 
 // Check contractions use.
-export default function retextContractions(options) {
-  var ignore = options && options.allowLiterals
-  var straight = options && options.straight
+export default function retextContractions(options = {}) {
+  const ignore = options.allowLiterals
+  const straight = options.straight
 
-  return transformer
-
-  function transformer(tree, file) {
-    visit(tree, 'WordNode', visitor)
-
-    function visitor(node, index, parent) {
-      var actual = toString(node)
-      var normal = drop(actual)
-      var expected
-      var message
+  return (tree, file) => {
+    visit(tree, 'WordNode', (node, index, parent) => {
+      const actual = toString(node)
+      const normal = actual.replace(/['’]/g, '')
 
       // Suggest if the straightened version is listed.
       if (own.call(data, normal)) {
-        expected = data[normal]
+        let expected = data[normal]
 
         if (!straight) {
-          expected = smarten(expected)
+          expected = expected.replace(/'/g, '’')
         }
 
-        // Perfect.
-        if (expected === actual) {
+        if (
+          // Perfect.
+          actual === expected ||
+          // Ignore literal misspelt words: `like this: “hasnt”`.
+          (!ignore && isLiteral(parent, index))
+        ) {
           return
         }
 
-        // Ignore literal misspelt words: `like this: “hasnt”`.
-        if (!ignore && isLiteral(parent, index)) {
-          return
-        }
-
-        message =
-          normal === actual
-            ? file.message(
-                'Expected an apostrophe in `' +
+        Object.assign(
+          file.message(
+            normal === actual
+              ? 'Expected an apostrophe in `' +
                   actual +
                   '`, ' +
                   'like this: `' +
                   expected +
-                  '`',
-                node,
-                [source, straight ? missingStraightId : missingSmartId].join(
-                  ':'
-                )
-              )
-            : file.message(
-                'Expected the apostrophe in `' +
+                  '`'
+              : 'Expected the apostrophe in `' +
                   actual +
                   '` to be ' +
                   'like this: `' +
                   expected +
                   '`',
-                node,
-                [source, straight ? straightId : smartId].join(':')
-              )
-
-        message.actual = actual
-        message.expected = [expected]
+            node,
+            [
+              source,
+              (normal === actual ? 'missing-' : '') +
+                (straight ? 'straight-apostrophe' : 'smart-apostrophe')
+            ].join(':')
+          ),
+          {actual, expected: [expected]}
+        )
       }
-    }
+    })
   }
 }
 
 function initialize() {
-  var result = {}
-  var key
-  var value
+  const result = {}
+  let key
 
   for (key in list) {
-    value = list[key]
-    result[key] = value
+    if (own.call(list, key)) {
+      const value = list[key]
 
-    // Add upper- and sentence case as well.
-    if (key === lower(key)) {
-      result[upper(key)] = upper(value)
-      result[sentence(key)] = sentence(value)
+      result[key] = value
+
+      // Add upper- and sentence case as well.
+      if (key === key.toLowerCase()) {
+        result[key.toUpperCase()] = value.toUpperCase()
+        result[key.charAt(0).toUpperCase() + key.slice(1)] =
+          value.charAt(0).toUpperCase() + value.slice(1)
+      }
     }
   }
 
   return result
-}
-
-function lower(value) {
-  return value.toLowerCase()
-}
-
-function upper(value) {
-  return value.toUpperCase()
-}
-
-function sentence(value) {
-  return upper(value.charAt(0)) + value.slice(1)
-}
-
-function smarten(value) {
-  return value.replace(/'/g, rightSingleQuotationMark)
-}
-
-function drop(value) {
-  return value.replace(apostropheExpression, '')
 }

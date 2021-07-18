@@ -2,7 +2,7 @@ import test from 'tape'
 import {retext} from 'retext'
 import retextContractions from './index.js'
 
-test('retext-contractions', function (t) {
+test('retext-contractions', (t) => {
   t.deepEqual(
     JSON.parse(
       JSON.stringify(
@@ -34,13 +34,16 @@ test('retext-contractions', function (t) {
     retext()
       .use(retextContractions, {straight: true})
       .processSync('Dont.')
-      .messages.map(String),
+      .messages.map((d) => String(d)),
     ["1:1-1:5: Expected an apostrophe in `Dont`, like this: `Don't`"],
     'should message for missing straight apostrophes'
   )
 
   t.deepEqual(
-    retext().use(retextContractions).processSync("Don't.").messages.map(String),
+    retext()
+      .use(retextContractions)
+      .processSync("Don't.")
+      .messages.map((d) => String(d)),
     ["1:1-1:6: Expected the apostrophe in `Don't` to be like this: `Don’t`"],
     'should message for an expected smart apostrophe'
   )
@@ -49,7 +52,7 @@ test('retext-contractions', function (t) {
     retext()
       .use(retextContractions, {straight: true})
       .processSync('Don’t.')
-      .messages.map(String),
+      .messages.map((d) => String(d)),
     ["1:1-1:6: Expected the apostrophe in `Don’t` to be like this: `Don't`"],
     'should message for an expected straight apostrophe'
   )
@@ -58,7 +61,7 @@ test('retext-contractions', function (t) {
     retext()
       .use(retextContractions)
       .processSync('Well, it doesnt have to be so bad, yall.')
-      .messages.map(String),
+      .messages.map((d) => String(d)),
     [
       '1:10-1:16: Expected an apostrophe in `doesnt`, like this: `doesn’t`',
       '1:36-1:40: Expected an apostrophe in `yall`, like this: `y’all`'
@@ -70,7 +73,7 @@ test('retext-contractions', function (t) {
     retext()
       .use(retextContractions)
       .processSync("Well, it does’nt have to be so bad, ya'll.")
-      .messages.map(String),
+      .messages.map((d) => String(d)),
     [
       '1:10-1:17: Expected the apostrophe in `does’nt` to be like this: `doesn’t`',
       "1:37-1:42: Expected the apostrophe in `ya'll` to be like this: `y’all`"
@@ -82,7 +85,7 @@ test('retext-contractions', function (t) {
     retext()
       .use(retextContractions)
       .processSync('twas tis twere')
-      .messages.map(String),
+      .messages.map((d) => String(d)),
     [
       '1:1-1:5: Expected an apostrophe in `twas`, like this: `’twas`',
       '1:6-1:9: Expected an apostrophe in `tis`, like this: `’tis`',
@@ -94,10 +97,8 @@ test('retext-contractions', function (t) {
   t.deepEqual(
     retext()
       .use(retextContractions)
-      .processSync(
-        ['It was acceptable in the 80s, I mean 80’s, no wait?'].join('\n')
-      )
-      .messages.map(String),
+      .processSync('It was acceptable in the 80s, I mean 80’s, no wait?')
+      .messages.map((d) => String(d)),
     [],
     'should ignore decades (GH-7)'
   )
@@ -105,8 +106,8 @@ test('retext-contractions', function (t) {
   t.deepEqual(
     retext()
       .use(retextContractions, {straight: true})
-      .processSync(['Well, it does’nt have to be so bad, y’all.'].join('\n'))
-      .messages.map(String),
+      .processSync('Well, it does’nt have to be so bad, y’all.')
+      .messages.map((d) => String(d)),
     [
       "1:10-1:17: Expected the apostrophe in `does’nt` to be like this: `doesn't`",
       "1:37-1:42: Expected the apostrophe in `y’all` to be like this: `y'all`"
@@ -117,8 +118,8 @@ test('retext-contractions', function (t) {
   t.deepEqual(
     retext()
       .use(retextContractions)
-      .processSync(['“Twas” is misspelt.'].join('\n'))
-      .messages.map(String),
+      .processSync('“Twas” is misspelt.')
+      .messages.map((d) => String(d)),
     [],
     'should ignore literals by default'
   )
@@ -126,8 +127,8 @@ test('retext-contractions', function (t) {
   t.deepEqual(
     retext()
       .use(retextContractions, {allowLiterals: true})
-      .processSync(['“Twas” is misspelt.'].join('\n'))
-      .messages.map(String),
+      .processSync('“Twas” is misspelt.')
+      .messages.map((d) => String(d)),
     ['1:2-1:6: Expected an apostrophe in `Twas`, like this: `’twas`'],
     'should allow literals when `allowLiterals: true`'
   )
@@ -135,8 +136,8 @@ test('retext-contractions', function (t) {
   t.deepEqual(
     retext()
       .use(retextContractions)
-      .processSync(['Well, it doesn’t have to be so bad, y’all.'].join('\n'))
-      .messages.map(String),
+      .processSync('Well, it doesn’t have to be so bad, y’all.')
+      .messages.map((d) => String(d)),
     [],
     'should work'
   )
