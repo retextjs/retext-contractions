@@ -1,4 +1,7 @@
 /**
+ * @typedef {import('nlcst').Root} Root
+ * @typedef {import('nlcst').Sentence} Sentence
+ *
  * @typedef Options
  *   Configuration.
  * @property {boolean} [allowLiterals=false]
@@ -24,14 +27,15 @@ const data = initialize()
 /**
  * Plugin to check contractions use.
  *
- * @type {import('unified').Plugin<[Options?]>}
+ * @type {import('unified').Plugin<[Options?], Root>}
  */
 export default function retextContractions(options = {}) {
   const ignore = options.allowLiterals
   const straight = options.straight
 
   return (tree, file) => {
-    visit(tree, 'WordNode', (node, index, parent) => {
+    visit(tree, 'WordNode', (node, index, parent_) => {
+      const parent = /** @type {Sentence} */ (parent_)
       const actual = toString(node)
       const normal = actual.replace(/['’]/g, '')
 
