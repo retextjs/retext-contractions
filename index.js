@@ -19,6 +19,7 @@ import {list} from './list.js'
 
 // Rules.
 const source = 'retext-contractions'
+const url = 'https://github.com/retextjs/retext-contractions#readme'
 
 const own = {}.hasOwnProperty
 
@@ -78,7 +79,7 @@ export default function retextContractions(options = {}) {
                 (straight ? 'straight-apostrophe' : 'smart-apostrophe')
             ].join(':')
           ),
-          {actual, expected: [expected]}
+          {actual, expected: [expected], url}
         )
       }
     })
