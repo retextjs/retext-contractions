@@ -24,7 +24,8 @@ test('retext-contractions', (t) => {
         },
         fatal: false,
         actual: 'Yall',
-        expected: ['Y’all']
+        expected: ['Y’all'],
+        url: 'https://github.com/retextjs/retext-contractions#readme'
       }
     ],
     'should message for missing smart apostrophes'
