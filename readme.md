@@ -78,7 +78,7 @@ import retextEnglish from 'retext-english'
 import retextContractions from 'retext-contractions'
 import retextStringify from 'retext-stringify'
 
-const file = unified()
+const file = await unified()
   .use(retextEnglish)
   .use(retextContractions)
   .use(retextStringify)
