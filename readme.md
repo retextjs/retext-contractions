@@ -8,50 +8,86 @@
 [![Backers][backers-badge]][collective]
 [![Chat][chat-badge]][chat]
 
-[**retext**][retext] plugin to check apostrophes in elided contractions: if they
-exist (`isnt` > `isn’t`) and if they are placed properly (`is’nt` > `isn’t`).
+**[retext][]** plugin to check apostrophes in contractions.
+
+## Contents
+
+*   [What is this?](#what-is-this)
+*   [When should I use this?](#when-should-i-use-this)
+*   [Install](#install)
+*   [Use](#use)
+*   [API](#api)
+    *   [`unified().use(retextContractions[, options])`](#unifieduseretextcontractions-options)
+*   [Messages](#messages)
+*   [Types](#types)
+*   [Compatibility](#compatibility)
+*   [Related](#related)
+*   [Contribute](#contribute)
+*   [License](#license)
+
+## What is this?
+
+This package is a [unified][] ([retext][]) plugin to check apostrophes in
+elided contractions.
+It checks whether they exist (`isnt` > `isn’t`) and if they are placed
+correctly (`is’nt` > `isn’t`).
+
+## When should I use this?
+
+You can opt-into this plugin when you’re dealing with content that might contain
+grammar mistakes, and have authors that can fix that content.
 
 ## Install
 
-This package is [ESM only](https://gist.github.com/sindresorhus/a39789f98801d908bbc7ff3ecc99d99c):
-Node 12+ is needed to use it and it must be `import`ed instead of `require`d.
-
-[npm][]:
+This package is [ESM only][esm].
+In Node.js (version 12.20+, 14.14+, 16.0+, or 18.0+), install with [npm][]:
 
 ```sh
 npm install retext-contractions
 ```
 
+In Deno with [`esm.sh`][esmsh]:
+
+```js
+import retextContractions from 'https://esm.sh/retext-contractions@5'
+```
+
+In browsers with [`esm.sh`][esmsh]:
+
+```html
+<script type="module">
+  import retextContractions from 'https://esm.sh/retext-contractions@5?bundle'
+</script>
+```
+
 ## Use
 
-Say we have the following file, `example.txt`:
+Say our document `example.txt` contains:
 
 ```txt
 Well, it does’nt have to be so bad yall, it isnt like the 80’s.
 ```
 
-…and our script, `example.js`, looks like this:
+…and our module `example.js` looks as follows:
 
 ```js
-import {readSync} from 'to-vfile'
+import {read} from 'to-vfile'
 import {reporter} from 'vfile-reporter'
 import {unified} from 'unified'
 import retextEnglish from 'retext-english'
 import retextContractions from 'retext-contractions'
 import retextStringify from 'retext-stringify'
 
-const file = readSync('example.txt')
-
-unified()
+const file = unified()
   .use(retextEnglish)
   .use(retextContractions)
   .use(retextStringify)
-  .process(file, (file) => {
-    console.error(reporter(file))
-  })
+  .process(await read('example.txt'))
+
+console.error(reporter(file))
 ```
 
-Now, running `node example` yields:
+…now running `node example.js` yields:
 
 ```txt
 example.txt
@@ -68,27 +104,28 @@ example.txt
 This package exports no identifiers.
 The default export is `retextContractions`.
 
-### `retext().use(retextContractions[, options])`
+### `unified().use(retextContractions[, options])`
 
-Emit warnings when a) elided contractions don’t have their required apostrophe,
-and b) when that apostrophe isn’t placed correctly.
+Check apostrophes in contractions.
 
 ##### `options`
+
+Configuration (optional).
 
 ###### `options.straight`
 
 Suggest straight (`'`) instead of smart (`’`) apostrophes (`boolean`, default:
 `false`).
-Use [`retext-quotes`][quotes] if you want to properly check that though.
+Use [`retext-quotes`][retext-quotes] if you want to properly check that though.
 
 ###### `options.allowLiterals`
 
 Include [literal][] phrases (`boolean`, default: `false`).
 The default is to ignore them.
 
-### Messages
+## Messages
 
-The following [`VFileMessage`][message]s are used:
+The following [`VFileMessage`][vfile-message]s are used:
 
 | `source` | `ruleId` | Example | Reason |
 | - | - | - | - |
@@ -100,14 +137,26 @@ The following [`VFileMessage`][message]s are used:
 The offending value is stored at `message.actual`, and the suggested values are
 stored at `message.expected`.
 
+## Types
+
+This package is fully typed with [TypeScript][].
+It exports the additional type `Options`.
+
+## Compatibility
+
+Projects maintained by the unified collective are compatible with all maintained
+versions of Node.js.
+As of now, that is Node.js 12.20+, 14.14+, 16.0+, and 18.0+.
+Our projects sometimes work with older versions, but this is not guaranteed.
+
 ## Related
 
 *   [`retext-diacritics`](https://github.com/retextjs/retext-diacritics)
-    — Check for proper use of diacritics
+    — check for proper use of diacritics
 *   [`retext-quotes`](https://github.com/retextjs/retext-quotes)
-    — Check quote and apostrophe usage
+    — check quote and apostrophe usage
 *   [`retext-sentence-spacing`](https://github.com/retextjs/retext-sentence-spacing)
-    — Check spacing between sentences
+    — check spacing between sentences
 
 ## Contribute
 
@@ -153,22 +202,30 @@ abide by its terms.
 
 [npm]: https://docs.npmjs.com/cli/install
 
+[esm]: https://gist.github.com/sindresorhus/a39789f98801d908bbc7ff3ecc99d99c
+
+[esmsh]: https://esm.sh
+
+[typescript]: https://www.typescriptlang.org
+
 [health]: https://github.com/retextjs/.github
 
-[contributing]: https://github.com/retextjs/.github/blob/HEAD/contributing.md
+[contributing]: https://github.com/retextjs/.github/blob/main/contributing.md
 
-[support]: https://github.com/retextjs/.github/blob/HEAD/support.md
+[support]: https://github.com/retextjs/.github/blob/main/support.md
 
-[coc]: https://github.com/retextjs/.github/blob/HEAD/code-of-conduct.md
+[coc]: https://github.com/retextjs/.github/blob/main/code-of-conduct.md
 
 [license]: license
 
 [author]: https://wooorm.com
 
+[unified]: https://github.com/unifiedjs/unified
+
 [retext]: https://github.com/retextjs/retext
 
-[quotes]: https://github.com/retextjs/retext-quotes
+[retext-quotes]: https://github.com/retextjs/retext-quotes
 
 [literal]: https://github.com/syntax-tree/nlcst-is-literal
 
-[message]: https://github.com/vfile/vfile-message
+[vfile-message]: https://github.com/vfile/vfile-message
