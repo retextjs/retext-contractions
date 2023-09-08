@@ -18,6 +18,7 @@
 *   [Use](#use)
 *   [API](#api)
     *   [`unified().use(retextContractions[, options])`](#unifieduseretextcontractions-options)
+    *   [`Options`](#options)
 *   [Messages](#messages)
 *   [Types](#types)
 *   [Compatibility](#compatibility)
@@ -40,7 +41,7 @@ grammar mistakes, and have authors that can fix that content.
 ## Install
 
 This package is [ESM only][esm].
-In Node.js (version 12.20+, 14.14+, 16.0+, or 18.0+), install with [npm][]:
+In Node.js (version 16+), install with [npm][]:
 
 ```sh
 npm install retext-contractions
@@ -65,18 +66,18 @@ In browsers with [`esm.sh`][esmsh]:
 Say our document `example.txt` contains:
 
 ```txt
-Well, it does’nt have to be so bad yall, it isnt like the 80’s.
+Well, it does’nt have to be so bad yall, it isnt like the 80s.
 ```
 
-…and our module `example.js` looks as follows:
+…and our module `example.js` contains:
 
 ```js
-import {read} from 'to-vfile'
-import {reporter} from 'vfile-reporter'
-import {unified} from 'unified'
-import retextEnglish from 'retext-english'
 import retextContractions from 'retext-contractions'
+import retextEnglish from 'retext-english'
 import retextStringify from 'retext-stringify'
+import {read} from 'to-vfile'
+import {unified} from 'unified'
+import {reporter} from 'vfile-reporter'
 
 const file = await unified()
   .use(retextEnglish)
@@ -87,67 +88,70 @@ const file = await unified()
 console.error(reporter(file))
 ```
 
-…now running `node example.js` yields:
+…then running `node example.js` yields:
 
 ```txt
 example.txt
-  1:10-1:17  warning  Expected the apostrophe in `does’nt` to be like this: `doesn’t`  retext-contractions  retext-contractions
-  1:36-1:40  warning  Expected an apostrophe in `yall`, like this: `y’all`             retext-contractions  retext-contractions
-  1:45-1:49  warning  Expected an apostrophe in `isnt`, like this: `isn’t`             retext-contractions  retext-contractions
-  1:59-1:63  warning  Expected the apostrophe in `80’s` to be like this: `’80s`        retext-contractions  retext-contractions
+1:10-1:17 warning Unexpected straight apostrophe in `does’nt`, expected `doesn’t` missing-smart-apostrophe retext-contractions
+1:36-1:40 warning Unexpected missing apostrophe in `yall`, expected `y’all`       missing-smart-apostrophe retext-contractions
+1:45-1:49 warning Unexpected missing apostrophe in `isnt`, expected `isn’t`       missing-smart-apostrophe retext-contractions
 
-⚠ 4 warnings
+⚠ 3 warnings
 ```
 
 ## API
 
 This package exports no identifiers.
-The default export is `retextContractions`.
+The default export is [`retextContractions`][api-retext-contractions].
 
 ### `unified().use(retextContractions[, options])`
 
 Check apostrophes in contractions.
 
-##### `options`
+###### Parameters
 
-Configuration (optional).
+*   `options` ([`Options`][api-options], optional)
+    — configuration
 
-###### `options.straight`
+###### Returns
 
-Suggest straight (`'`) instead of smart (`’`) apostrophes (`boolean`, default:
-`false`).
-Use [`retext-quotes`][retext-quotes] if you want to properly check that though.
+Transform ([`Transformer`][unified-transformer]).
 
-###### `options.allowLiterals`
+### `Options`
 
-Include [literal][] phrases (`boolean`, default: `false`).
-The default is to ignore them.
+Configuration (TypeScript type).
+
+###### Fields
+
+*   `allowLiterals` (`boolean`, default: `false`)
+    — include [literal][nlcst-literal] phrases;
+    normally they are ignored
+*   `straight` (`boolean`, default: `false`)
+    — suggest straight (`'`) instead of smart (`’`) apostrophes;
+    see [`retext-quotes`][retext-quotes] if you want to properly check that
+    though
 
 ## Messages
 
-The following [`VFileMessage`][vfile-message]s are used:
-
-| `source` | `ruleId` | Example | Reason |
-| - | - | - | - |
-| `retext-contractions` | `missing-smart-apostrophe` | `Yall` | Expected an apostrophe in `Yall`, like this: `Y’all` |
-| `retext-contractions` | `missing-straight-apostrophe` | `Yall`, with `straight: true` | Expected an apostrophe in `Dont`, like this: `Don't` |
-| `retext-contractions` | `straight-apostrophe` | `Don't` | Expected the apostrophe in `Don't` to be like this: `Don’t` |
-| `retext-contractions` | `smart-apostrophe` | `Don’t`, with `straight: true` | Expected the apostrophe in `Don’t` to be like this: `Don't` |
-
-The offending value is stored at `message.actual`, and the suggested values are
-stored at `message.expected`.
+Each message is emitted as a [`VFileMessage`][vfile-message] on `file`, with
+`source` set to `'retext-contractions'`, `ruleId` to
+`'missing-smart-apostrophe'` or `'missing-straight-apostrophe'`,
+`actual` to the unexpected value, and `expected` to the expected value.
 
 ## Types
 
 This package is fully typed with [TypeScript][].
-It exports the additional type `Options`.
+It exports the additional type [`Options`][api-options].
 
 ## Compatibility
 
-Projects maintained by the unified collective are compatible with all maintained
+Projects maintained by the unified collective are compatible with maintained
 versions of Node.js.
-As of now, that is Node.js 12.20+, 14.14+, 16.0+, and 18.0+.
-Our projects sometimes work with older versions, but this is not guaranteed.
+
+When we cut a new major release, we drop support for unmaintained versions of
+Node.
+This means we try to keep the current release line, `retext-contractions@^5`,
+compatible with Node.js 12.
 
 ## Related
 
@@ -186,9 +190,9 @@ abide by its terms.
 
 [downloads]: https://www.npmjs.com/package/retext-contractions
 
-[size-badge]: https://img.shields.io/bundlephobia/minzip/retext-contractions.svg
+[size-badge]: https://img.shields.io/bundlejs/size/retext-contractions
 
-[size]: https://bundlephobia.com/result?p=retext-contractions
+[size]: https://bundlejs.com/?q=retext-contractions
 
 [sponsors-badge]: https://opencollective.com/unified/sponsors/badge.svg
 
@@ -220,12 +224,18 @@ abide by its terms.
 
 [author]: https://wooorm.com
 
-[unified]: https://github.com/unifiedjs/unified
+[nlcst-literal]: https://github.com/syntax-tree/nlcst-is-literal
 
 [retext]: https://github.com/retextjs/retext
 
 [retext-quotes]: https://github.com/retextjs/retext-quotes
 
-[literal]: https://github.com/syntax-tree/nlcst-is-literal
+[unified]: https://github.com/unifiedjs/unified
+
+[unified-transformer]: https://github.com/unifiedjs/unified#transformer
 
 [vfile-message]: https://github.com/vfile/vfile-message
+
+[api-retext-contractions]: #unifieduseretextcontractions-options
+
+[api-options]: #options
