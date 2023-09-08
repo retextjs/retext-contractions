@@ -52,7 +52,7 @@ export default function retextContractions(options = {}) {
           // Perfect.
           actual === expected ||
           // Ignore literal misspelt words: `like this: “hasnt”`.
-          (parent && index !== null && !ignore && isLiteral(parent, index))
+          (parent && index !== undefined && !ignore && isLiteral(parent, index))
         ) {
           return
         }

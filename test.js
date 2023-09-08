@@ -11,18 +11,37 @@ test('retext-contractions', (t) => {
     ),
     [
       {
-        name: '1:1-1:5',
-        message: 'Expected an apostrophe in `Yall`, like this: `Y’all`',
-        reason: 'Expected an apostrophe in `Yall`, like this: `Y’all`',
-        line: 1,
+        ancestors: [
+          {
+            type: 'WordNode',
+            children: [
+              {
+                type: 'TextNode',
+                value: 'Yall',
+                position: {
+                  start: {line: 1, column: 1, offset: 0},
+                  end: {line: 1, column: 5, offset: 4}
+                }
+              }
+            ],
+            position: {
+              start: {line: 1, column: 1, offset: 0},
+              end: {line: 1, column: 5, offset: 4}
+            }
+          }
+        ],
         column: 1,
-        source: 'retext-contractions',
-        ruleId: 'missing-smart-apostrophe',
-        position: {
+        fatal: false,
+        message: 'Expected an apostrophe in `Yall`, like this: `Y’all`',
+        line: 1,
+        name: '1:1-1:5',
+        place: {
           start: {line: 1, column: 1, offset: 0},
           end: {line: 1, column: 5, offset: 4}
         },
-        fatal: false,
+        reason: 'Expected an apostrophe in `Yall`, like this: `Y’all`',
+        ruleId: 'missing-smart-apostrophe',
+        source: 'retext-contractions',
         actual: 'Yall',
         expected: ['Y’all'],
         url: 'https://github.com/retextjs/retext-contractions#readme'
