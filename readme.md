@@ -50,14 +50,14 @@ npm install retext-contractions
 In Deno with [`esm.sh`][esmsh]:
 
 ```js
-import retextContractions from 'https://esm.sh/retext-contractions@5'
+import retextContractions from 'https://esm.sh/retext-contractions@6'
 ```
 
 In browsers with [`esm.sh`][esmsh]:
 
 ```html
 <script type="module">
-  import retextContractions from 'https://esm.sh/retext-contractions@5?bundle'
+  import retextContractions from 'https://esm.sh/retext-contractions@6?bundle'
 </script>
 ```
 
