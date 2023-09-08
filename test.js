@@ -21,14 +21,14 @@ test('retextContractions', async function (t) {
           ancestors: [],
           column: 1,
           fatal: false,
-          message: 'Expected an apostrophe in `Yall`, like this: `Y’all`',
+          message: 'Unexpected missing apostrophe in `Yall`, expected `Y’all`',
           line: 1,
           name: '1:1-1:5',
           place: {
             start: {line: 1, column: 1, offset: 0},
             end: {line: 1, column: 5, offset: 4}
           },
-          reason: 'Expected an apostrophe in `Yall`, like this: `Y’all`',
+          reason: 'Unexpected missing apostrophe in `Yall`, expected `Y’all`',
           ruleId: 'missing-smart-apostrophe',
           source: 'retext-contractions',
           actual: 'Yall',
@@ -47,7 +47,7 @@ test('retextContractions', async function (t) {
         .process('Dont.')
 
       assert.deepEqual(file.messages.map(String), [
-        "1:1-1:5: Expected an apostrophe in `Dont`, like this: `Don't`"
+        "1:1-1:5: Unexpected missing apostrophe in `Dont`, expected `Don't`"
       ])
     }
   )
@@ -58,7 +58,7 @@ test('retextContractions', async function (t) {
       const file = await retext().use(retextContractions).process("Don't.")
 
       assert.deepEqual(file.messages.map(String), [
-        "1:1-1:6: Expected the apostrophe in `Don't` to be like this: `Don’t`"
+        "1:1-1:6: Unexpected straight apostrophe in `Don't`, expected `Don’t`"
       ])
     }
   )
@@ -71,7 +71,7 @@ test('retextContractions', async function (t) {
         .process('Don’t.')
 
       assert.deepEqual(file.messages.map(String), [
-        "1:1-1:6: Expected the apostrophe in `Don’t` to be like this: `Don't`"
+        "1:1-1:6: Unexpected smart apostrophe in `Don’t`, expected `Don't`"
       ])
     }
   )
@@ -84,8 +84,8 @@ test('retextContractions', async function (t) {
         .process('Well, it doesnt have to be so bad, yall.')
 
       assert.deepEqual(file.messages.map(String), [
-        '1:10-1:16: Expected an apostrophe in `doesnt`, like this: `doesn’t`',
-        '1:36-1:40: Expected an apostrophe in `yall`, like this: `y’all`'
+        '1:10-1:16: Unexpected missing apostrophe in `doesnt`, expected `doesn’t`',
+        '1:36-1:40: Unexpected missing apostrophe in `yall`, expected `y’all`'
       ])
     }
   )
@@ -98,8 +98,8 @@ test('retextContractions', async function (t) {
         .process("Well, it does’nt have to be so bad, ya'll.")
 
       assert.deepEqual(file.messages.map(String), [
-        '1:10-1:17: Expected the apostrophe in `does’nt` to be like this: `doesn’t`',
-        "1:37-1:42: Expected the apostrophe in `ya'll` to be like this: `y’all`"
+        '1:10-1:17: Unexpected straight apostrophe in `does’nt`, expected `doesn’t`',
+        "1:37-1:42: Unexpected straight apostrophe in `ya'll`, expected `y’all`"
       ])
     }
   )
@@ -110,9 +110,9 @@ test('retextContractions', async function (t) {
       .process('twas tis twere')
 
     assert.deepEqual(file.messages.map(String), [
-      '1:1-1:5: Expected an apostrophe in `twas`, like this: `’twas`',
-      '1:6-1:9: Expected an apostrophe in `tis`, like this: `’tis`',
-      '1:10-1:15: Expected an apostrophe in `twere`, like this: `’twere`'
+      '1:1-1:5: Unexpected missing apostrophe in `twas`, expected `’twas`',
+      '1:6-1:9: Unexpected missing apostrophe in `tis`, expected `’tis`',
+      '1:10-1:15: Unexpected missing apostrophe in `twere`, expected `’twere`'
     ])
   })
 
@@ -132,8 +132,8 @@ test('retextContractions', async function (t) {
         .process('Well, it does’nt have to be so bad, y’all.')
 
       assert.deepEqual(file.messages.map(String), [
-        "1:10-1:17: Expected the apostrophe in `does’nt` to be like this: `doesn't`",
-        "1:37-1:42: Expected the apostrophe in `y’all` to be like this: `y'all`"
+        "1:10-1:17: Unexpected smart apostrophe in `does’nt`, expected `doesn't`",
+        "1:37-1:42: Unexpected smart apostrophe in `y’all`, expected `y'all`"
       ])
     }
   )
@@ -154,7 +154,7 @@ test('retextContractions', async function (t) {
         .process('“Twas” is misspelt.')
 
       assert.deepEqual(file.messages.map(String), [
-        '1:2-1:6: Expected an apostrophe in `Twas`, like this: `’twas`'
+        '1:2-1:6: Unexpected missing apostrophe in `Twas`, expected `’twas`'
       ])
     }
   )
