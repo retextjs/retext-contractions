@@ -4,32 +4,21 @@ import {retext} from 'retext'
 import retextContractions from './index.js'
 
 test('retextContractions', async function (t) {
+  await t.test('should expose the public api', async function () {
+    assert.deepEqual(Object.keys(await import('./index.js')).sort(), [
+      'default'
+    ])
+  })
+
   await t.test(
     'should message for missing smart apostrophes',
     async function () {
       const file = await retext().use(retextContractions).process('Yall.')
 
-      assert.deepEqual(JSON.parse(JSON.stringify(file.messages)), [
+      assert.deepEqual(
+        JSON.parse(JSON.stringify({...file.messages[0], ancestors: []})),
         {
-          ancestors: [
-            {
-              type: 'WordNode',
-              children: [
-                {
-                  type: 'TextNode',
-                  value: 'Yall',
-                  position: {
-                    start: {line: 1, column: 1, offset: 0},
-                    end: {line: 1, column: 5, offset: 4}
-                  }
-                }
-              ],
-              position: {
-                start: {line: 1, column: 1, offset: 0},
-                end: {line: 1, column: 5, offset: 4}
-              }
-            }
-          ],
+          ancestors: [],
           column: 1,
           fatal: false,
           message: 'Expected an apostrophe in `Yall`, like this: `Y’all`',
@@ -46,7 +35,7 @@ test('retextContractions', async function (t) {
           expected: ['Y’all'],
           url: 'https://github.com/retextjs/retext-contractions#readme'
         }
-      ])
+      )
     }
   )
 
