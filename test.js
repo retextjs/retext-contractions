@@ -1,163 +1,180 @@
-import test from 'tape'
+import assert from 'node:assert/strict'
+import test from 'node:test'
 import {retext} from 'retext'
 import retextContractions from './index.js'
 
-test('retext-contractions', (t) => {
-  t.deepEqual(
-    JSON.parse(
-      JSON.stringify(
-        retext().use(retextContractions).processSync('Yall.').messages
-      )
-    ),
-    [
-      {
-        ancestors: [
-          {
-            type: 'WordNode',
-            children: [
-              {
-                type: 'TextNode',
-                value: 'Yall',
-                position: {
-                  start: {line: 1, column: 1, offset: 0},
-                  end: {line: 1, column: 5, offset: 4}
+test('retextContractions', async function (t) {
+  await t.test(
+    'should message for missing smart apostrophes',
+    async function () {
+      const file = await retext().use(retextContractions).process('Yall.')
+
+      assert.deepEqual(JSON.parse(JSON.stringify(file.messages)), [
+        {
+          ancestors: [
+            {
+              type: 'WordNode',
+              children: [
+                {
+                  type: 'TextNode',
+                  value: 'Yall',
+                  position: {
+                    start: {line: 1, column: 1, offset: 0},
+                    end: {line: 1, column: 5, offset: 4}
+                  }
                 }
+              ],
+              position: {
+                start: {line: 1, column: 1, offset: 0},
+                end: {line: 1, column: 5, offset: 4}
               }
-            ],
-            position: {
-              start: {line: 1, column: 1, offset: 0},
-              end: {line: 1, column: 5, offset: 4}
             }
-          }
-        ],
-        column: 1,
-        fatal: false,
-        message: 'Expected an apostrophe in `Yall`, like this: `Y’all`',
-        line: 1,
-        name: '1:1-1:5',
-        place: {
-          start: {line: 1, column: 1, offset: 0},
-          end: {line: 1, column: 5, offset: 4}
-        },
-        reason: 'Expected an apostrophe in `Yall`, like this: `Y’all`',
-        ruleId: 'missing-smart-apostrophe',
-        source: 'retext-contractions',
-        actual: 'Yall',
-        expected: ['Y’all'],
-        url: 'https://github.com/retextjs/retext-contractions#readme'
-      }
-    ],
-    'should message for missing smart apostrophes'
+          ],
+          column: 1,
+          fatal: false,
+          message: 'Expected an apostrophe in `Yall`, like this: `Y’all`',
+          line: 1,
+          name: '1:1-1:5',
+          place: {
+            start: {line: 1, column: 1, offset: 0},
+            end: {line: 1, column: 5, offset: 4}
+          },
+          reason: 'Expected an apostrophe in `Yall`, like this: `Y’all`',
+          ruleId: 'missing-smart-apostrophe',
+          source: 'retext-contractions',
+          actual: 'Yall',
+          expected: ['Y’all'],
+          url: 'https://github.com/retextjs/retext-contractions#readme'
+        }
+      ])
+    }
   )
 
-  t.deepEqual(
-    retext()
-      .use(retextContractions, {straight: true})
-      .processSync('Dont.')
-      .messages.map(String),
-    ["1:1-1:5: Expected an apostrophe in `Dont`, like this: `Don't`"],
-    'should message for missing straight apostrophes'
+  await t.test(
+    'should message for missing straight apostrophes',
+    async function () {
+      const file = await retext()
+        .use(retextContractions, {straight: true})
+        .process('Dont.')
+
+      assert.deepEqual(file.messages.map(String), [
+        "1:1-1:5: Expected an apostrophe in `Dont`, like this: `Don't`"
+      ])
+    }
   )
 
-  t.deepEqual(
-    retext().use(retextContractions).processSync("Don't.").messages.map(String),
-    ["1:1-1:6: Expected the apostrophe in `Don't` to be like this: `Don’t`"],
-    'should message for an expected smart apostrophe'
+  await t.test(
+    'should message for an expected smart apostrophe',
+    async function () {
+      const file = await retext().use(retextContractions).process("Don't.")
+
+      assert.deepEqual(file.messages.map(String), [
+        "1:1-1:6: Expected the apostrophe in `Don't` to be like this: `Don’t`"
+      ])
+    }
   )
 
-  t.deepEqual(
-    retext()
-      .use(retextContractions, {straight: true})
-      .processSync('Don’t.')
-      .messages.map(String),
-    ["1:1-1:6: Expected the apostrophe in `Don’t` to be like this: `Don't`"],
-    'should message for an expected straight apostrophe'
+  await t.test(
+    'should message for an expected straight apostrophe',
+    async function () {
+      const file = await retext()
+        .use(retextContractions, {straight: true})
+        .process('Don’t.')
+
+      assert.deepEqual(file.messages.map(String), [
+        "1:1-1:6: Expected the apostrophe in `Don’t` to be like this: `Don't`"
+      ])
+    }
   )
 
-  t.deepEqual(
-    retext()
+  await t.test(
+    'should catch contractions without apostrophes',
+    async function () {
+      const file = await retext()
+        .use(retextContractions)
+        .process('Well, it doesnt have to be so bad, yall.')
+
+      assert.deepEqual(file.messages.map(String), [
+        '1:10-1:16: Expected an apostrophe in `doesnt`, like this: `doesn’t`',
+        '1:36-1:40: Expected an apostrophe in `yall`, like this: `y’all`'
+      ])
+    }
+  )
+
+  await t.test(
+    'should catch contractions with incorrect apostrophes',
+    async function () {
+      const file = await retext()
+        .use(retextContractions)
+        .process("Well, it does’nt have to be so bad, ya'll.")
+
+      assert.deepEqual(file.messages.map(String), [
+        '1:10-1:17: Expected the apostrophe in `does’nt` to be like this: `doesn’t`',
+        "1:37-1:42: Expected the apostrophe in `ya'll` to be like this: `y’all`"
+      ])
+    }
+  )
+
+  await t.test('should catch initial elisions', async function () {
+    const file = await retext()
       .use(retextContractions)
-      .processSync('Well, it doesnt have to be so bad, yall.')
-      .messages.map(String),
-    [
-      '1:10-1:16: Expected an apostrophe in `doesnt`, like this: `doesn’t`',
-      '1:36-1:40: Expected an apostrophe in `yall`, like this: `y’all`'
-    ],
-    'should catch contractions without apostrophes'
-  )
+      .process('twas tis twere')
 
-  t.deepEqual(
-    retext()
-      .use(retextContractions)
-      .processSync("Well, it does’nt have to be so bad, ya'll.")
-      .messages.map(String),
-    [
-      '1:10-1:17: Expected the apostrophe in `does’nt` to be like this: `doesn’t`',
-      "1:37-1:42: Expected the apostrophe in `ya'll` to be like this: `y’all`"
-    ],
-    'should catch contractions with incorrect apostrophes'
-  )
-
-  t.deepEqual(
-    retext()
-      .use(retextContractions)
-      .processSync('twas tis twere')
-      .messages.map(String),
-    [
+    assert.deepEqual(file.messages.map(String), [
       '1:1-1:5: Expected an apostrophe in `twas`, like this: `’twas`',
       '1:6-1:9: Expected an apostrophe in `tis`, like this: `’tis`',
       '1:10-1:15: Expected an apostrophe in `twere`, like this: `’twere`'
-    ],
-    'should catch initial elisions'
-  )
+    ])
+  })
 
-  t.deepEqual(
-    retext()
+  await t.test('should ignore decades (GH-7)', async function () {
+    const file = await retext()
       .use(retextContractions)
-      .processSync('It was acceptable in the 80s, I mean 80’s, no wait?')
-      .messages.map(String),
-    [],
-    'should ignore decades (GH-7)'
+      .process('It was acceptable in the 80s, I mean 80’s, no wait?')
+
+    assert.deepEqual(file.messages.map(String), [])
+  })
+
+  await t.test(
+    'should catch contractions without apostrophes',
+    async function () {
+      const file = await retext()
+        .use(retextContractions, {straight: true})
+        .process('Well, it does’nt have to be so bad, y’all.')
+
+      assert.deepEqual(file.messages.map(String), [
+        "1:10-1:17: Expected the apostrophe in `does’nt` to be like this: `doesn't`",
+        "1:37-1:42: Expected the apostrophe in `y’all` to be like this: `y'all`"
+      ])
+    }
   )
 
-  t.deepEqual(
-    retext()
-      .use(retextContractions, {straight: true})
-      .processSync('Well, it does’nt have to be so bad, y’all.')
-      .messages.map(String),
-    [
-      "1:10-1:17: Expected the apostrophe in `does’nt` to be like this: `doesn't`",
-      "1:37-1:42: Expected the apostrophe in `y’all` to be like this: `y'all`"
-    ],
-    'should catch contractions without apostrophes'
-  )
-
-  t.deepEqual(
-    retext()
+  await t.test('should ignore literals by default', async function () {
+    const file = await retext()
       .use(retextContractions)
-      .processSync('“Twas” is misspelt.')
-      .messages.map(String),
-    [],
-    'should ignore literals by default'
+      .process('“Twas” is misspelt.')
+
+    assert.deepEqual(file.messages.map(String), [])
+  })
+
+  await t.test(
+    'should allow literals when `allowLiterals: true`',
+    async function () {
+      const file = await retext()
+        .use(retextContractions, {allowLiterals: true})
+        .process('“Twas” is misspelt.')
+
+      assert.deepEqual(file.messages.map(String), [
+        '1:2-1:6: Expected an apostrophe in `Twas`, like this: `’twas`'
+      ])
+    }
   )
 
-  t.deepEqual(
-    retext()
-      .use(retextContractions, {allowLiterals: true})
-      .processSync('“Twas” is misspelt.')
-      .messages.map(String),
-    ['1:2-1:6: Expected an apostrophe in `Twas`, like this: `’twas`'],
-    'should allow literals when `allowLiterals: true`'
-  )
-
-  t.deepEqual(
-    retext()
+  await t.test('should work', async function () {
+    const file = await retext()
       .use(retextContractions)
-      .processSync('Well, it doesn’t have to be so bad, y’all.')
-      .messages.map(String),
-    [],
-    'should work'
-  )
+      .process('Well, it doesn’t have to be so bad, y’all.')
 
-  t.end()
+    assert.deepEqual(file.messages.map(String), [])
+  })
 })
